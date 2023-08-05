@@ -1,0 +1,63 @@
+databaseChangeLog:
+  - changeSet:
+      id: fill-developer_skills
+      author: akretsev
+      changes:
+        - insert:
+            tableName: developer_skills
+            columns:
+              - column:
+                  name: developer_id
+                  value: "1"
+              - column:
+                  name: skill_id
+                  value: "1"
+        - insert:
+            tableName: developer_skills
+            columns:
+              - column:
+                  name: developer_id
+                  value: "1"
+              - column:
+                  name: skill_id
+                  value: "2"
+        - insert:
+            tableName: developer_skills
+            columns:
+              - column:
+                  name: developer_id
+                  value: "1"
+              - column:
+                  name: skill_id
+                  value: "4"
+        - insert:
+            tableName: developer_skills
+            columns:
+              - column:
+                  name: developer_id
+                  value: "2"
+              - column:
+                  name: skill_id
+                  value: "3"
+        - insert:
+            tableName: developer_skills
+            columns:
+              - column:
+                  name: developer_id
+                  value: "3"
+              - column:
+                  name: skill_id
+                  value: "4"
+        - insert:
+            tableName: developer_skills
+            columns:
+              - column:
+                  name: developer_id
+                  value: "4"
+              - column:
+                  name: skill_id
+                  value: "5"
+      rollback:
+        - delete:
+            tableName: developer_skills
+            where: developer_id in ('1', '2', '3', '4')

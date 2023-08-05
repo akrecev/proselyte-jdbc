@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: fill-specialties
+      author: akretsev
+      changes:
+        - insert:
+            tableName: specialties
+            columns:
+              - column:
+                  name: name
+                  value: "Java developer"
+        - insert:
+            tableName: specialties
+            columns:
+              - column:
+                  name: name
+                  value: "JS developer"
+        - insert:
+            tableName: specialties
+            columns:
+              - column:
+                  name: name
+                  value: "Web designer"
+        - insert:
+            tableName: specialties
+            columns:
+              - column:
+                  name: name
+                  value: "HTML SENIOR DEVELOPER"
+      rollback:
+        - delete:
+            tableName: specialties
+            where: name in ('Java developer', 'JS developer', 'Web designer', 'HTML developer')

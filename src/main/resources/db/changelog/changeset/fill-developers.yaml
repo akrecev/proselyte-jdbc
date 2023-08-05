@@ -1,0 +1,69 @@
+databaseChangeLog:
+  - changeSet:
+      id: fill-developers
+      author: akretsev
+      changes:
+        - insert:
+            tableName: developers
+            columns:
+              - column:
+                  name: first_name
+                  value: "Darth"
+              - column:
+                  name: last_name
+                  value: "Vader"
+              - column:
+                  name: specialty_id
+                  value: "1"
+              - column:
+                  name: status
+                  value: "ACTIVE"
+        - insert:
+            tableName: developers
+            columns:
+              - column:
+                  name: first_name
+                  value: "Petya"
+              - column:
+                  name: last_name
+                  value: "Vasechkin"
+              - column:
+                  name: specialty_id
+                  value: "2"
+              - column:
+                  name: status
+                  value: "ACTIVE"
+        - insert:
+            tableName: developers
+            columns:
+              - column:
+                  name: first_name
+                  value: "Alisa"
+              - column:
+                  name: last_name
+                  value: "Selezneva"
+              - column:
+                  name: specialty_id
+                  value: "3"
+              - column:
+                  name: status
+                  value: "ACTIVE"
+        - insert:
+            tableName: developers
+            columns:
+              - column:
+                  name: first_name
+                  value: "Vasiliy"
+              - column:
+                  name: last_name
+                  value: "Fortochkin"
+              - column:
+                  name: specialty_id
+                  value: "4"
+              - column:
+                  name: status
+                  value: "DELETED"
+      rollback:
+        - delete:
+            tableName: developers
+            where: last_name in ('Vader', 'Vasechkin', 'Selezneva', 'Fortochkin')

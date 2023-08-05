@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-developer_skills
+      author: akretsev
+      changes:
+        - createTable:
+            tableName: developer_skills
+            columns:
+              - column:
+                  name: developer_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: developer_skills_developer_fk
+                    referencedTableName: developers
+                    referencedColumnNames: id
+              - column:
+                  name: skill_id
+                  type: int
+                  constraints:
+                    foreignKeyName: developer_skills_skill_fk
+                    referencedTableName: skills
+                    referencedColumnNames: id
