@@ -14,7 +14,6 @@
 
 #### Для запуска необходимо:
     - склонировать репозиторий: git clone git@github.com:akrecev/proselyte-jdbc.git
-    - переключиться на ветку develop
     - запустить сборку проекта maven -> package
     - запустить метод main класса RunJdbcApplication
     - следовать инструкциям в консоли
