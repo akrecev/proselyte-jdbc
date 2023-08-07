@@ -1,4 +1,5 @@
 jdbc:
-  url: jdbc:mysql://localhost:3306/jdbc
+#  url: jdbc:mysql://localhost:3306/jdbc
+  url: jdbc:h2:file:./db/jdbc
   user: user
   password: password

@@ -6,7 +6,8 @@ import java.sql.*;
 
 @UtilityClass
 public class JdbcUtils {
-    private static final String URL = "jdbc:mysql://localhost:3306/jdbc";
+//    private static final String URL = "jdbc:mysql://localhost:3306/jdbc";
+    private static final String URL = "jdbc:h2:file:./db/jdbc";
     private static final String USER = "user";
     private static final String PASSWORD = "password";
 
@@ -15,7 +16,8 @@ public class JdbcUtils {
 
     static {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("org.h2.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
