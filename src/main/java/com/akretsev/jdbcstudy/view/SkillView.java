@@ -5,10 +5,8 @@ import com.akretsev.jdbcstudy.controller.console.ConsoleSkillControllerImpl;
 import com.akretsev.jdbcstudy.model.Skill;
 import com.akretsev.jdbcstudy.repository.jdbc.JdbcSkillRepositoryImpl;
 import com.akretsev.jdbcstudy.service.impl.SkillServiceImpl;
-import com.mysql.cj.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -24,11 +22,12 @@ public class SkillView {
         printSkills();
         scanner.nextLine();
         String skillList = scanner.nextLine();
-        List<Integer> skillIds = Arrays.stream(skillList.split(","))
-                .map(String::trim)
-                .filter(StringUtils::isStrictlyNumeric)
-                .map(Integer::parseInt)
-                .distinct()
+
+        List<Integer> skillIds = skillList
+                .chars()
+                .mapToObj(i -> (char) i)
+                .filter(Character::isDigit)
+                .map(Integer::valueOf)
                 .collect(Collectors.toList());
 
         for (Integer skillId : skillIds) {
