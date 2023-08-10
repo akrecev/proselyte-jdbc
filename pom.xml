@@ -14,6 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <flywaydb.version>9.21.1</flywaydb.version>
         <lombok.version>1.18.28</lombok.version>
+        <hibernate.version>6.2.7.Final</hibernate.version>
         <junit.version>4.13.2</junit.version>
         <junit-jupiter.version>5.9.3</junit-jupiter.version>
         <mockito.version>5.3.1</mockito.version>
@@ -33,6 +34,12 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
         </dependency>
 
         <dependency>

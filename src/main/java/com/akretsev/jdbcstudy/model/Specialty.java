@@ -3,6 +3,7 @@ package com.akretsev.jdbcstudy.model;
 import com.akretsev.jdbcstudy.repository.jdbc.JdbcSpecialtyRepositoryImpl;
 import com.akretsev.jdbcstudy.service.SpecialtyService;
 import com.akretsev.jdbcstudy.service.impl.SpecialtyServiceImpl;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,9 +15,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity
+@Table(name = "specialties")
 public class Specialty {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false, length = 50)
     private String name;
+    @OneToMany(mappedBy = "specialty")
+    private List<Developer> developers;
 
     @Override
     public String toString() {
