@@ -28,8 +28,8 @@ class DeveloperServiceImplTest {
     @InjectMocks
     DeveloperServiceImpl developerService;
 
-    Skill testSkill = new Skill(10, "Test skill");
-    Specialty testSpecialty = new Specialty(10, "Test specialty");
+    Skill testSkill = Skill.builder().id(10).name("Test skill").build();
+    Specialty testSpecialty = Specialty.builder().id(10).name("Test specialty").build();
 
     Developer testDeveloper = new Developer(
             10L,

@@ -25,7 +25,7 @@ class SpecialtyServiceImplTest {
     @InjectMocks
     SpecialtyServiceImpl specialtyService;
 
-    Specialty testSpecialty = new Specialty(10, "Test specialty");
+    Specialty testSpecialty = Specialty.builder().id(10).name("Test specialty").build();
 
     @Test
     void testCreate() {

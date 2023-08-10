@@ -26,7 +26,7 @@ class SkillServiceImplTest {
     @InjectMocks
     SkillServiceImpl skillService;
 
-    Skill testSkill = new Skill(10, "Test skill");
+    Skill testSkill = Skill.builder().id(10).name("Test skill").build();
 
     @Test
     void testCreate() {

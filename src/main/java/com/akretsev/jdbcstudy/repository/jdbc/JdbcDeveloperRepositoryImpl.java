@@ -151,18 +151,21 @@ public class JdbcDeveloperRepositoryImpl implements DeveloperRepository {
                 developer.setFirstName(resultSet.getString("first_name"));
                 developer.setLastName(resultSet.getString("last_name"));
                 developer.setSpecialty(
-                        new Specialty(
-                                resultSet.getInt("specialty_id"),
-                                resultSet.getString("specialty_name")
-                        )
+                        Specialty
+                                .builder()
+                                .id(resultSet.getInt("specialty_id"))
+                                .name(resultSet.getString("specialty_name"))
+                                .build()
+
                 );
                 developer.setStatus(Status.valueOf((resultSet.getString("status"))));
                 skills = new ArrayList<>();
                 while (developer.getId() == resultSet.getLong("id")) {
-                    Skill skill = new Skill(
-                            resultSet.getInt("skill_id"),
-                            resultSet.getString("skill_name")
-                    );
+                    Skill skill = Skill
+                            .builder()
+                            .id(resultSet.getInt("skill_id"))
+                            .name(resultSet.getString("skill_name"))
+                            .build();
                     skills.add(skill);
 
                     if (!resultSet.next()) {
