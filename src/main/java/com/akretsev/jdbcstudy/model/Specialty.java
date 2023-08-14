@@ -1,6 +1,6 @@
 package com.akretsev.jdbcstudy.model;
 
-import com.akretsev.jdbcstudy.repository.jdbc.JdbcSpecialtyRepositoryImpl;
+import com.akretsev.jdbcstudy.repository.hibernate.HibernateSpecialtyRepositoryImpl;
 import com.akretsev.jdbcstudy.service.SpecialtyService;
 import com.akretsev.jdbcstudy.service.impl.SpecialtyServiceImpl;
 import jakarta.persistence.*;
@@ -32,7 +32,7 @@ public class Specialty {
     }
 
     public static void printSpecialties() {
-        SpecialtyService specialtyService = new SpecialtyServiceImpl(new JdbcSpecialtyRepositoryImpl());
+        SpecialtyService specialtyService = new SpecialtyServiceImpl(new HibernateSpecialtyRepositoryImpl());
         List<Specialty> specialties = specialtyService.getAll();
         for (Specialty specialty : specialties) {
             System.out.println(specialty.getId() + " - " + specialty.getName());

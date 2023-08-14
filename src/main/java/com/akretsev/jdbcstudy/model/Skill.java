@@ -1,6 +1,6 @@
 package com.akretsev.jdbcstudy.model;
 
-import com.akretsev.jdbcstudy.repository.jdbc.JdbcSkillRepositoryImpl;
+import com.akretsev.jdbcstudy.repository.hibernate.HibernateSkillRepositoryImpl;
 import com.akretsev.jdbcstudy.service.SkillService;
 import com.akretsev.jdbcstudy.service.impl.SkillServiceImpl;
 import jakarta.persistence.*;
@@ -32,7 +32,7 @@ public class Skill {
     }
 
     public static void printSkills() {
-        SkillService skillService = new SkillServiceImpl(new JdbcSkillRepositoryImpl());
+        SkillService skillService = new SkillServiceImpl(new HibernateSkillRepositoryImpl());
         List<Skill> skills = skillService.getAll();
         for (Skill skill : skills) {
             System.out.println(skill.getId() + " - " + skill.getName());

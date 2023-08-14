@@ -1,7 +1,10 @@
 package com.akretsev.jdbcstudy.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -28,6 +31,7 @@ public class Developer {
     private List<Skill> skills;
     @ManyToOne
     private Specialty specialty;
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @Override

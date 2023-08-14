@@ -5,7 +5,7 @@ import com.akretsev.jdbcstudy.controller.console.ConsoleDeveloperControllerImpl;
 import com.akretsev.jdbcstudy.model.Developer;
 import com.akretsev.jdbcstudy.model.Skill;
 import com.akretsev.jdbcstudy.model.Specialty;
-import com.akretsev.jdbcstudy.repository.jdbc.JdbcDeveloperRepositoryImpl;
+import com.akretsev.jdbcstudy.repository.hibernate.HibernateDeveloperRepositoryImpl;
 import com.akretsev.jdbcstudy.service.impl.DeveloperServiceImpl;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class GeneralView {
     private final Scanner scanner = new Scanner(System.in);
     private final DeveloperController developerController =
-            new ConsoleDeveloperControllerImpl(new DeveloperServiceImpl(new JdbcDeveloperRepositoryImpl()));
+            new ConsoleDeveloperControllerImpl(new DeveloperServiceImpl(new HibernateDeveloperRepositoryImpl()));
     private final SkillView skillView = new SkillView();
     private final SpecialtyView specialtyView = new SpecialtyView();
 
