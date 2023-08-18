@@ -3,7 +3,6 @@ package com.akretsev.jdbcstudy.utility;
 import com.akretsev.jdbcstudy.model.Developer;
 import com.akretsev.jdbcstudy.model.Skill;
 import com.akretsev.jdbcstudy.model.Specialty;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

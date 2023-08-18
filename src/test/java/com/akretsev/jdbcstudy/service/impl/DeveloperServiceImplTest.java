@@ -2,9 +2,6 @@ package com.akretsev.jdbcstudy.service.impl;
 
 import com.akretsev.jdbcstudy.exception.DataNotFoundException;
 import com.akretsev.jdbcstudy.model.Developer;
-import com.akretsev.jdbcstudy.model.Skill;
-import com.akretsev.jdbcstudy.model.Specialty;
-import com.akretsev.jdbcstudy.model.Status;
 import com.akretsev.jdbcstudy.repository.DeveloperRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.akretsev.jdbcstudy.utility.TestUtils.getTestDeveloper;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -28,57 +26,45 @@ class DeveloperServiceImplTest {
     @InjectMocks
     DeveloperServiceImpl developerService;
 
-    Skill testSkill = Skill.builder().id(10).name("Test skill").build();
-    Specialty testSpecialty = Specialty.builder().id(10).name("Test specialty").build();
-
-    Developer testDeveloper = new Developer(
-            10L,
-            "testDeveloperFirstName",
-            "testDeveloperLastName",
-            Collections.singletonList(testSkill),
-            testSpecialty,
-            Status.ACTIVE
-    );
-
     @Test
     void testCreate() {
         when(developerRepository.save(any(Developer.class)))
-                .thenReturn(testDeveloper);
+                .thenReturn(getTestDeveloper());
 
-        Developer actualTestDeveloper = developerService.create(testDeveloper);
+        Developer actualTestDeveloper = developerService.create(getTestDeveloper());
 
         assertNotNull(actualTestDeveloper);
-        assertEquals(testDeveloper.getFirstName(), actualTestDeveloper.getFirstName());
-        assertEquals(testDeveloper.getLastName(), actualTestDeveloper.getLastName());
-        assertEquals(testDeveloper.getSkills(), actualTestDeveloper.getSkills());
-        assertEquals(testDeveloper.getSpecialty(), actualTestDeveloper.getSpecialty());
-        assertEquals(testDeveloper.getStatus(), actualTestDeveloper.getStatus());
+        assertEquals(getTestDeveloper().getFirstName(), actualTestDeveloper.getFirstName());
+        assertEquals(getTestDeveloper().getLastName(), actualTestDeveloper.getLastName());
+        assertEquals(getTestDeveloper().getSkills(), actualTestDeveloper.getSkills());
+        assertEquals(getTestDeveloper().getSpecialty(), actualTestDeveloper.getSpecialty());
+        assertEquals(getTestDeveloper().getStatus(), actualTestDeveloper.getStatus());
         verify(developerRepository, times(1)).save(any());
     }
 
     @Test
     void testGetByIdOk() {
-        when(developerRepository.findById(testDeveloper.getId()))
-                .thenReturn(Optional.ofNullable(testDeveloper));
+        when(developerRepository.findById(getTestDeveloper().getId()))
+                .thenReturn(Optional.of(getTestDeveloper()));
 
-        Developer actualTestDeveloper = developerService.getById(testDeveloper.getId());
+        Developer actualTestDeveloper = developerService.getById(getTestDeveloper().getId());
 
         assertNotNull(actualTestDeveloper);
-        assertEquals(testDeveloper.getFirstName(), actualTestDeveloper.getFirstName());
-        assertEquals(testDeveloper.getLastName(), actualTestDeveloper.getLastName());
-        assertEquals(testDeveloper.getSkills(), actualTestDeveloper.getSkills());
-        assertEquals(testDeveloper.getSpecialty(), actualTestDeveloper.getSpecialty());
-        assertEquals(testDeveloper.getStatus(), actualTestDeveloper.getStatus());
+        assertEquals(getTestDeveloper().getFirstName(), actualTestDeveloper.getFirstName());
+        assertEquals(getTestDeveloper().getLastName(), actualTestDeveloper.getLastName());
+        assertEquals(getTestDeveloper().getSkills(), actualTestDeveloper.getSkills());
+        assertEquals(getTestDeveloper().getSpecialty(), actualTestDeveloper.getSpecialty());
+        assertEquals(getTestDeveloper().getStatus(), actualTestDeveloper.getStatus());
         verify(developerRepository, times(1)).findById(anyLong());
     }
 
     @Test
     void testGetByIdNotFound() {
-        when(developerRepository.findById(testDeveloper.getId()))
-                .thenThrow(new DataNotFoundException("Developer id=" + testDeveloper.getId() + " not found."));
+        when(developerRepository.findById(getTestDeveloper().getId()))
+                .thenThrow(new DataNotFoundException("Developer id=" + getTestDeveloper().getId() + " not found."));
 
         DataNotFoundException exception = assertThrows(DataNotFoundException.class,
-                () -> developerService.getById(testDeveloper.getId()));
+                () -> developerService.getById(getTestDeveloper().getId()));
 
         assertEquals("Developer id=10 not found.", exception.getMessage());
         verify(developerRepository, times(1)).findById(anyLong());
@@ -87,9 +73,9 @@ class DeveloperServiceImplTest {
     @Test
     void testGetAllOk() {
         when(developerRepository.findAll())
-                .thenReturn(Collections.singletonList(testDeveloper));
+                .thenReturn(Collections.singletonList(getTestDeveloper()));
 
-        List<Developer> developerList = Collections.singletonList(testDeveloper);
+        List<Developer> developerList = Collections.singletonList(getTestDeveloper());
         List<Developer> actualDeveloperList = developerService.getAll();
 
         assertNotNull(actualDeveloperList);
@@ -113,17 +99,17 @@ class DeveloperServiceImplTest {
     @Test
     void testUpdate() {
         when(developerRepository.update(any(Developer.class)))
-                .thenReturn(testDeveloper);
+                .thenReturn(getTestDeveloper());
 
-        Developer actualTestDeveloper = developerService.update(testDeveloper);
+        Developer actualTestDeveloper = developerService.update(getTestDeveloper());
 
         assertNotNull(actualTestDeveloper);
-        assertEquals(testDeveloper.getId(), actualTestDeveloper.getId());
-        assertEquals(testDeveloper.getFirstName(), actualTestDeveloper.getFirstName());
-        assertEquals(testDeveloper.getLastName(), actualTestDeveloper.getLastName());
-        assertEquals(testDeveloper.getSkills(), actualTestDeveloper.getSkills());
-        assertEquals(testDeveloper.getSpecialty(), actualTestDeveloper.getSpecialty());
-        assertEquals(testDeveloper.getStatus(), actualTestDeveloper.getStatus());
+        assertEquals(getTestDeveloper().getId(), actualTestDeveloper.getId());
+        assertEquals(getTestDeveloper().getFirstName(), actualTestDeveloper.getFirstName());
+        assertEquals(getTestDeveloper().getLastName(), actualTestDeveloper.getLastName());
+        assertEquals(getTestDeveloper().getSkills(), actualTestDeveloper.getSkills());
+        assertEquals(getTestDeveloper().getSpecialty(), actualTestDeveloper.getSpecialty());
+        assertEquals(getTestDeveloper().getStatus(), actualTestDeveloper.getStatus());
         verify(developerRepository, times(1)).update(any());
     }
 

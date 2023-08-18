@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.akretsev.jdbcstudy.utility.TestUtils.getTestSkill;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -26,39 +27,37 @@ class SkillServiceImplTest {
     @InjectMocks
     SkillServiceImpl skillService;
 
-    Skill testSkill = Skill.builder().id(10).name("Test skill").build();
-
     @Test
     void testCreate() {
         when(skillRepository.save(any(Skill.class)))
-                .thenReturn(testSkill);
+                .thenReturn(getTestSkill());
 
-        Skill actualTestSkill = skillService.create(testSkill);
+        Skill actualTestSkill = skillService.create(getTestSkill());
 
         assertNotNull(actualTestSkill);
-        assertEquals(testSkill.getName(), actualTestSkill.getName());
+        assertEquals(getTestSkill().getName(), actualTestSkill.getName());
         verify(skillRepository, times(1)).save(any());
     }
 
     @Test
     void testGetByIdOk() {
-        when(skillRepository.findById(testSkill.getId()))
-                .thenReturn(Optional.ofNullable(testSkill));
+        when(skillRepository.findById(getTestSkill().getId()))
+                .thenReturn(Optional.of(getTestSkill()));
 
-        Skill actualTestSkill = skillService.getById(testSkill.getId());
+        Skill actualTestSkill = skillService.getById(getTestSkill().getId());
 
         assertNotNull(actualTestSkill);
-        assertEquals(testSkill.getName(), actualTestSkill.getName());
+        assertEquals(getTestSkill().getName(), actualTestSkill.getName());
         verify(skillRepository, times(1)).findById(anyInt());
     }
 
     @Test
     void testGetByIdNotFound() {
-        when(skillRepository.findById(testSkill.getId()))
-                .thenThrow(new DataNotFoundException("Skill id=" + testSkill.getId() + " not found."));
+        when(skillRepository.findById(getTestSkill().getId()))
+                .thenThrow(new DataNotFoundException("Skill id=" + getTestSkill().getId() + " not found."));
 
         DataNotFoundException exception = assertThrows(DataNotFoundException.class,
-                () -> skillService.getById(testSkill.getId()));
+                () -> skillService.getById(getTestSkill().getId()));
 
         assertEquals("Skill id=10 not found.", exception.getMessage());
         verify(skillRepository, times(1)).findById(anyInt());
@@ -67,9 +66,9 @@ class SkillServiceImplTest {
     @Test
     void testGetAllOk() {
         when(skillRepository.findAll())
-                .thenReturn(Collections.singletonList(testSkill));
+                .thenReturn(Collections.singletonList(getTestSkill()));
 
-        List<Skill> skillList = Collections.singletonList(testSkill);
+        List<Skill> skillList = Collections.singletonList(getTestSkill());
         List<Skill> actualSkillList = skillService.getAll();
 
         assertNotNull(actualSkillList);
@@ -93,13 +92,13 @@ class SkillServiceImplTest {
     @Test
     void testUpdate() {
         when(skillRepository.update(any(Skill.class)))
-                .thenReturn(testSkill);
+                .thenReturn(getTestSkill());
 
-        Skill actualTestSkill = skillService.update(testSkill);
+        Skill actualTestSkill = skillService.update(getTestSkill());
 
         assertNotNull(actualTestSkill);
-        assertEquals(testSkill.getId(), actualTestSkill.getId());
-        assertEquals(testSkill.getName(), actualTestSkill.getName());
+        assertEquals(getTestSkill().getId(), actualTestSkill.getId());
+        assertEquals(getTestSkill().getName(), actualTestSkill.getName());
         verify(skillRepository, times(1)).update(any());
     }
 
