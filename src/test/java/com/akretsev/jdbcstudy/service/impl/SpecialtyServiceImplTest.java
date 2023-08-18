@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.akretsev.jdbcstudy.utility.TestUtils.getTestSpecialty;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -25,39 +26,37 @@ class SpecialtyServiceImplTest {
     @InjectMocks
     SpecialtyServiceImpl specialtyService;
 
-    Specialty testSpecialty = new Specialty(10, "Test specialty");
-
     @Test
     void testCreate() {
         when(specialtyRepository.save(any(Specialty.class)))
-                .thenReturn(testSpecialty);
+                .thenReturn(getTestSpecialty());
 
-        Specialty actualTestSpecialty = specialtyService.create(testSpecialty);
+        Specialty actualTestSpecialty = specialtyService.create(getTestSpecialty());
 
         assertNotNull(actualTestSpecialty);
-        assertEquals(testSpecialty.getName(), actualTestSpecialty.getName());
+        assertEquals(getTestSpecialty().getName(), actualTestSpecialty.getName());
         verify(specialtyRepository, times(1)).save(any());
     }
 
     @Test
     void testGetByIdOk() {
-        when(specialtyRepository.findById(testSpecialty.getId()))
-                .thenReturn(Optional.ofNullable(testSpecialty));
+        when(specialtyRepository.findById(getTestSpecialty().getId()))
+                .thenReturn(Optional.of(getTestSpecialty()));
 
-        Specialty actualTestSpecialty = specialtyService.getById(testSpecialty.getId());
+        Specialty actualTestSpecialty = specialtyService.getById(getTestSpecialty().getId());
 
         assertNotNull(actualTestSpecialty);
-        assertEquals(testSpecialty.getName(), actualTestSpecialty.getName());
+        assertEquals(getTestSpecialty().getName(), actualTestSpecialty.getName());
         verify(specialtyRepository, times(1)).findById(anyInt());
     }
 
     @Test
     void testGetByIdNotFound() {
-        when(specialtyRepository.findById(testSpecialty.getId()))
-                .thenThrow(new DataNotFoundException("Specialty id=" + testSpecialty.getId() + " not found."));
+        when(specialtyRepository.findById(getTestSpecialty().getId()))
+                .thenThrow(new DataNotFoundException("Specialty id=" + getTestSpecialty().getId() + " not found."));
 
         DataNotFoundException exception = assertThrows(DataNotFoundException.class,
-                () -> specialtyService.getById(testSpecialty.getId()));
+                () -> specialtyService.getById(getTestSpecialty().getId()));
 
         assertEquals("Specialty id=10 not found.", exception.getMessage());
         verify(specialtyRepository, times(1)).findById(anyInt());
@@ -66,9 +65,9 @@ class SpecialtyServiceImplTest {
     @Test
     void testGetAllOk() {
         when(specialtyRepository.findAll())
-                .thenReturn(Collections.singletonList(testSpecialty));
+                .thenReturn(Collections.singletonList(getTestSpecialty()));
 
-        List<Specialty> SpecialtyList = Collections.singletonList(testSpecialty);
+        List<Specialty> SpecialtyList = Collections.singletonList(getTestSpecialty());
         List<Specialty> actualSpecialtyList = specialtyService.getAll();
 
         assertNotNull(actualSpecialtyList);
@@ -92,13 +91,13 @@ class SpecialtyServiceImplTest {
     @Test
     void testUpdate() {
         when(specialtyRepository.update(any(Specialty.class)))
-                .thenReturn(testSpecialty);
+                .thenReturn(getTestSpecialty());
 
-        Specialty actualTestSpecialty = specialtyService.update(testSpecialty);
+        Specialty actualTestSpecialty = specialtyService.update(getTestSpecialty());
 
         assertNotNull(actualTestSpecialty);
-        assertEquals(testSpecialty.getId(), actualTestSpecialty.getId());
-        assertEquals(testSpecialty.getName(), actualTestSpecialty.getName());
+        assertEquals(getTestSpecialty().getId(), actualTestSpecialty.getId());
+        assertEquals(getTestSpecialty().getName(), actualTestSpecialty.getName());
         verify(specialtyRepository, times(1)).update(any());
     }
 }

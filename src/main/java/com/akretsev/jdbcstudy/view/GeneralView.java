@@ -1,22 +1,14 @@
 package com.akretsev.jdbcstudy.view;
 
-import com.akretsev.jdbcstudy.controller.DeveloperController;
-import com.akretsev.jdbcstudy.controller.console.ConsoleDeveloperControllerImpl;
 import com.akretsev.jdbcstudy.model.Developer;
 import com.akretsev.jdbcstudy.model.Skill;
 import com.akretsev.jdbcstudy.model.Specialty;
-import com.akretsev.jdbcstudy.repository.jdbc.JdbcDeveloperRepositoryImpl;
-import com.akretsev.jdbcstudy.service.impl.DeveloperServiceImpl;
 
 import java.util.List;
-import java.util.Scanner;
+
+import static com.akretsev.jdbcstudy.context.ApplicationContext.*;
 
 public class GeneralView {
-    private final Scanner scanner = new Scanner(System.in);
-    private final DeveloperController developerController =
-            new ConsoleDeveloperControllerImpl(new DeveloperServiceImpl(new JdbcDeveloperRepositoryImpl()));
-    private final SkillView skillView = new SkillView();
-    private final SpecialtyView specialtyView = new SpecialtyView();
 
     public static void printMenu() {
         System.out.println("\nChoose an action:\n" +
@@ -37,48 +29,48 @@ public class GeneralView {
 
         System.out.println("Launch the application \"List of developers\"");
         printMenu();
-        int userInput = scanner.nextInt();
+        int userInput = getScanner().nextInt();
         while (userInput != 0) {
             switch (userInput) {
                 case 1:
                     System.out.println("Input first name (without spaces):");
-                    String firstName = scanner.next();
+                    String firstName = getScanner().next();
                     System.out.println("You entered - " + firstName);
                     System.out.println("Input last name (without spaces):");
-                    String lastName = scanner.next();
+                    String lastName = getScanner().next();
                     System.out.println("You entered - " + lastName);
 
-                    List<Skill> skills = skillView.select(scanner);
-                    Specialty specialty = specialtyView.select(scanner);
+                    List<Skill> skills = getSkillView().select(getScanner());
+                    Specialty specialty = getSpecialtyView().select(getScanner());
 
-                    Developer developer = developerController.create(firstName, lastName, skills, specialty);
+                    Developer developer = getDeveloperController().create(firstName, lastName, skills, specialty);
                     System.out.println("Saved developer: \n" + developer);
                     break;
 
                 case 2:
                     System.out.println("List of all developers:");
-                    System.out.println(developerController.getAll());
+                    System.out.println(getDeveloperController().getAll());
                     break;
 
                 case 3:
                     System.out.println("Input id of developer:");
-                    long developerId = scanner.nextLong();
-                    System.out.println(developerController.getById(developerId));
+                    long developerId = getScanner().nextLong();
+                    System.out.println(getDeveloperController().getById(developerId));
                     break;
 
                 case 4:
                     System.out.println("Input id developer for updated");
-                    long updatedId = scanner.nextLong();
-                    developerController.getById(updatedId);
+                    long updatedId = getScanner().nextLong();
+                    getDeveloperController().getById(updatedId);
                     System.out.println("Input first name:");
-                    String updatedFirstName = scanner.next();
+                    String updatedFirstName = getScanner().next();
                     System.out.println("You entered - " + updatedFirstName);
                     System.out.println("Input last name:");
-                    String updatedLastName = scanner.next();
+                    String updatedLastName = getScanner().next();
                     System.out.println("You entered - " + updatedLastName);
-                    List<Skill> updatedSkills = skillView.select(scanner);
-                    Specialty updatedSpecialty = specialtyView.select(scanner);
-                    Developer updatedDeveloper = developerController.update(
+                    List<Skill> updatedSkills = getSkillView().select(getScanner());
+                    Specialty updatedSpecialty = getSpecialtyView().select(getScanner());
+                    Developer updatedDeveloper = getDeveloperController().update(
                             updatedId, updatedFirstName, updatedLastName, updatedSkills, updatedSpecialty
                     );
                     System.out.println("Updated developer: \n" + updatedDeveloper);
@@ -86,14 +78,14 @@ public class GeneralView {
 
                 case 5:
                     System.out.println("Input id of developer for his deleted:");
-                    long deletedDeveloperId = scanner.nextLong();
-                    Developer deletedDeveloper = developerController.getById(deletedDeveloperId);
+                    long deletedDeveloperId = getScanner().nextLong();
+                    Developer deletedDeveloper = getDeveloperController().getById(deletedDeveloperId);
                     System.out.println("Developer id=" + deletedDeveloperId + " will deleted.");
                     System.out.println(deletedDeveloper);
                     System.out.println("To confirm deletion enter id of developer for his deleted again");
-                    long deletedDeveloperIdAgain = scanner.nextLong();
+                    long deletedDeveloperIdAgain = getScanner().nextLong();
                     if (deletedDeveloperIdAgain == deletedDeveloperId) {
-                        developerController.deleteById(deletedDeveloperId);
+                        getDeveloperController().deleteById(deletedDeveloperId);
                         System.out.println("Developer id=" + deletedDeveloperId + " was deleted.");
                     } else {
                         System.out.println("Deletion not confirmed");
@@ -102,22 +94,22 @@ public class GeneralView {
                     break;
 
                 case 6:
-                    skillView.create(scanner);
+                    getSkillView().create(getScanner());
 
                     break;
 
                 case 7:
-                    skillView.delete(scanner);
+                    getSkillView().delete(getScanner());
 
                     break;
 
                 case 8:
-                    specialtyView.create(scanner);
+                    getSpecialtyView().create(getScanner());
 
                     break;
 
                 case 9:
-                    specialtyView.delete(scanner);
+                    getSpecialtyView().delete(getScanner());
 
                     break;
 
@@ -125,8 +117,8 @@ public class GeneralView {
                     System.out.println("You entered an invalid command");
             }
             printMenu();
-            if (scanner.hasNextInt()){
-                userInput = scanner.nextInt();
+            if (getScanner().hasNextInt()) {
+                userInput = getScanner().nextInt();
             }
         }
     }

@@ -1,18 +1,16 @@
 package com.akretsev.jdbcstudy.view;
 
 import com.akretsev.jdbcstudy.controller.SpecialtyController;
-import com.akretsev.jdbcstudy.controller.console.ConsoleSpecialtyControllerImpl;
 import com.akretsev.jdbcstudy.model.Specialty;
-import com.akretsev.jdbcstudy.repository.jdbc.JdbcSpecialtyRepositoryImpl;
-import com.akretsev.jdbcstudy.service.impl.SpecialtyServiceImpl;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Scanner;
 
 import static com.akretsev.jdbcstudy.model.Specialty.printSpecialties;
 
+@RequiredArgsConstructor
 public class SpecialtyView {
-    SpecialtyController specialtyService =
-            new ConsoleSpecialtyControllerImpl(new SpecialtyServiceImpl(new JdbcSpecialtyRepositoryImpl()));
+    private final SpecialtyController specialtyService;
 
     public Specialty select(Scanner scanner) {
         System.out.println("Select specialty by id (input only number):");

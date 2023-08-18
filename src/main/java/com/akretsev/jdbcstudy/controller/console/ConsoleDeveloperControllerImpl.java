@@ -27,7 +27,6 @@ public class ConsoleDeveloperControllerImpl implements DeveloperController {
         return developerService.create(developer);
     }
 
-
     @Override
     public Developer getById(Long id) {
         return developerService.getById(id);

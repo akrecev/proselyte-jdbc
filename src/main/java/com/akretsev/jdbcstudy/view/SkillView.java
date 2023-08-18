@@ -1,11 +1,8 @@
 package com.akretsev.jdbcstudy.view;
 
 import com.akretsev.jdbcstudy.controller.SkillController;
-import com.akretsev.jdbcstudy.controller.console.ConsoleSkillControllerImpl;
 import com.akretsev.jdbcstudy.model.Skill;
-import com.akretsev.jdbcstudy.repository.jdbc.JdbcSkillRepositoryImpl;
-import com.akretsev.jdbcstudy.service.impl.SkillServiceImpl;
-import com.mysql.cj.util.StringUtils;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,21 +12,19 @@ import java.util.stream.Collectors;
 
 import static com.akretsev.jdbcstudy.model.Skill.printSkills;
 
+@RequiredArgsConstructor
 public class SkillView {
-    SkillController skillController = new ConsoleSkillControllerImpl(new SkillServiceImpl(new JdbcSkillRepositoryImpl()));
+    private final SkillController skillController;
 
     public List<Skill> select(Scanner scanner) {
         List<Skill> skills = new ArrayList<>();
         System.out.println("Select skills by id (write the list in one line separated by commas\",\" without spaces):");
         printSkills();
         scanner.nextLine();
-        String skillList = scanner.nextLine();
-        List<Integer> skillIds = Arrays.stream(skillList.split(","))
-                .map(String::trim)
-                .filter(StringUtils::isStrictlyNumeric)
-                .map(Integer::parseInt)
-                .distinct()
-                .collect(Collectors.toList());
+        String skillListString = scanner.nextLine();
+        List<String> skillList = Arrays.asList(skillListString.split(",")) ;
+
+        List<Integer> skillIds = skillList.stream().map(Integer::parseInt).collect(Collectors.toList());
 
         for (Integer skillId : skillIds) {
             skills.add(skillController.getById(skillId));
