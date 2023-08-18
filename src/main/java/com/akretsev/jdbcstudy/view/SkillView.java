@@ -1,10 +1,8 @@
 package com.akretsev.jdbcstudy.view;
 
 import com.akretsev.jdbcstudy.controller.SkillController;
-import com.akretsev.jdbcstudy.controller.console.ConsoleSkillControllerImpl;
 import com.akretsev.jdbcstudy.model.Skill;
-import com.akretsev.jdbcstudy.repository.hibernate.HibernateSkillRepositoryImpl;
-import com.akretsev.jdbcstudy.service.impl.SkillServiceImpl;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,9 +12,9 @@ import java.util.stream.Collectors;
 
 import static com.akretsev.jdbcstudy.model.Skill.printSkills;
 
+@RequiredArgsConstructor
 public class SkillView {
-    SkillController skillController =
-            new ConsoleSkillControllerImpl(new SkillServiceImpl(new HibernateSkillRepositoryImpl()));
+    private final SkillController skillController;
 
     public List<Skill> select(Scanner scanner) {
         List<Skill> skills = new ArrayList<>();
