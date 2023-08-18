@@ -3,16 +3,20 @@ package com.akretsev.jdbcstudy.utility;
 import com.akretsev.jdbcstudy.model.Developer;
 import com.akretsev.jdbcstudy.model.Skill;
 import com.akretsev.jdbcstudy.model.Specialty;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 @NoArgsConstructor
 public class HibernateUtil {
+    public static final String DEVELOPER_GRAPH = "developer-entity-graph";
+    public static final String FETCH_GRAPH_PATH = "jakarta.persistence.fetchgraph";
     private static SessionFactory sessionFactory;
 
-    public static SessionFactory getSessionFactory() {
+    private static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration().configure();
@@ -27,6 +31,10 @@ public class HibernateUtil {
             }
         }
         return sessionFactory;
+    }
+
+    public static Session getSession() {
+        return getSessionFactory().openSession();
     }
 
 }

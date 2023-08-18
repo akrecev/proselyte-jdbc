@@ -9,12 +9,12 @@ import org.hibernate.Transaction;
 import java.util.List;
 import java.util.Optional;
 
-import static com.akretsev.jdbcstudy.utility.HibernateUtil.getSessionFactory;
+import static com.akretsev.jdbcstudy.utility.HibernateUtil.getSession;
 
 public class HibernateSkillRepositoryImpl implements SkillRepository {
     @Override
     public Skill save(Skill skill) {
-        Session session = getSessionFactory().openSession();
+        Session session = getSession();
         Transaction transaction = session.beginTransaction();
         session.persist(skill);
         transaction.commit();
@@ -25,21 +25,25 @@ public class HibernateSkillRepositoryImpl implements SkillRepository {
 
     @Override
     public Optional<Skill> findById(Integer id) {
-        Skill skill = getSessionFactory().openSession().get(Skill.class, id);
+        Session session = getSession();
+        Skill skill = session.get(Skill.class, id);
+        session.close();
+
         return Optional.ofNullable(skill);
     }
 
     @Override
     public List<Skill> findAll() {
-        return (List<Skill>) getSessionFactory()
-                .openSession()
-                .createQuery("FROM Skill")
-                .list();
+        Session session = getSession();
+        List<Skill> skills = session.createQuery("FROM Skill", Skill.class).list();
+        session.close();
+
+        return skills;
     }
 
     @Override
     public Skill update(Skill skill) {
-        Session session = getSessionFactory().openSession();
+        Session session = getSession();
         Transaction transaction = session.beginTransaction();
         session.merge(skill);
         transaction.commit();
@@ -52,7 +56,7 @@ public class HibernateSkillRepositoryImpl implements SkillRepository {
     public void deleteById(Integer id) {
         Skill deletedSkill =
                 findById(id).orElseThrow(() -> new DataNotFoundException("Skill id=" + id + " not found."));
-        Session session = getSessionFactory().openSession();
+        Session session = getSession();
         Transaction transaction = session.beginTransaction();
         session.remove(deletedSkill);
         transaction.commit();

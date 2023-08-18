@@ -9,12 +9,12 @@ import org.hibernate.Transaction;
 import java.util.List;
 import java.util.Optional;
 
-import static com.akretsev.jdbcstudy.utility.HibernateUtil.getSessionFactory;
+import static com.akretsev.jdbcstudy.utility.HibernateUtil.getSession;
 
 public class HibernateSpecialtyRepositoryImpl implements SpecialtyRepository {
     @Override
     public Specialty save(Specialty specialty) {
-        Session session = getSessionFactory().openSession();
+        Session session = getSession();
         Transaction transaction = session.beginTransaction();
         session.persist(specialty);
         transaction.commit();
@@ -25,21 +25,25 @@ public class HibernateSpecialtyRepositoryImpl implements SpecialtyRepository {
 
     @Override
     public Optional<Specialty> findById(Integer id) {
-        Specialty specialty = getSessionFactory().openSession().get(Specialty.class, id);
+        Session session = getSession();
+        Specialty specialty = session.get(Specialty.class, id);
+        session.close();
+
         return Optional.ofNullable(specialty);
     }
 
     @Override
     public List<Specialty> findAll() {
-        return (List<Specialty>) getSessionFactory()
-                .openSession()
-                .createQuery("FROM Specialty ")
-                .list();
+        Session session = getSession();
+        List<Specialty> specialties = session.createQuery("FROM Specialty", Specialty.class).list();
+        session.close();
+
+        return specialties;
     }
 
     @Override
     public Specialty update(Specialty specialty) {
-        Session session = getSessionFactory().openSession();
+        Session session = getSession();
         Transaction transaction = session.beginTransaction();
         session.merge(specialty);
         transaction.commit();
@@ -52,7 +56,7 @@ public class HibernateSpecialtyRepositoryImpl implements SpecialtyRepository {
     public void deleteById(Integer id) {
         Specialty deletedSpecialty =
                 findById(id).orElseThrow(() -> new DataNotFoundException("Specialty id=" + id + " not found."));
-        Session session = getSessionFactory().openSession();
+        Session session = getSession();
         Transaction transaction = session.beginTransaction();
         session.remove(deletedSpecialty);
         transaction.commit();

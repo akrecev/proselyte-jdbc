@@ -14,6 +14,13 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "developers")
+@NamedEntityGraph(
+        name = "developer-entity-graph",
+        attributeNodes = {
+                @NamedAttributeNode("skills"),
+                @NamedAttributeNode("specialty")
+        }
+)
 public class Developer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
