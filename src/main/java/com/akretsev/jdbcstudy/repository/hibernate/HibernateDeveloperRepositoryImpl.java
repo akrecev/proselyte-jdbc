@@ -30,7 +30,7 @@ public class HibernateDeveloperRepositoryImpl implements DeveloperRepository {
     @Override
     public Optional<Developer> findById(Long id) {
         Session session = getSession();
-        EntityGraph<?> entityGraph = getSession().getEntityGraph(DEVELOPER_GRAPH);
+        EntityGraph<?> entityGraph = session.getEntityGraph(DEVELOPER_GRAPH);
         Map<String, Object> properties = new HashMap<>();
         properties.put(FETCH_GRAPH_PATH, entityGraph);
         Developer developer = session.find(Developer.class, id, properties);
@@ -42,7 +42,7 @@ public class HibernateDeveloperRepositoryImpl implements DeveloperRepository {
     @Override
     public List<Developer> findAll() {
         Session session = getSession();
-        EntityGraph<?> entityGraph = getSession().getEntityGraph(DEVELOPER_GRAPH);
+        EntityGraph<?> entityGraph = session.getEntityGraph(DEVELOPER_GRAPH);
         List<Developer> developers = session.createQuery("FROM Developer", Developer.class)
                 .setHint(FETCH_GRAPH_PATH, entityGraph)
                 .list();
