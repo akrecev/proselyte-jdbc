@@ -67,7 +67,7 @@ public class HibernateDeveloperRepositoryImpl implements DeveloperRepository {
         Developer deletedDeveloper = Developer.builder().id(id).status(Status.DELETED).build();
         Session session = getSession();
         Transaction transaction = session.beginTransaction();
-        session.merge(deletedDeveloper);
+        session.remove(deletedDeveloper);
         transaction.commit();
         session.close();
     }
